@@ -7,9 +7,9 @@ const cors = require("cors");
 const multer = require("multer");
 const path = require("path");
 
-const app = express(); // Initialize app here
+const app = express(); 
 
-app.use('/uploads', express.static(path.join(__dirname, 'uploads'))); // Now this is fine
+app.use('/uploads', express.static(path.join(__dirname, 'uploads'))); 
 
 const PORT = 3000;
 const fs = require('fs');
@@ -21,7 +21,7 @@ if (!fs.existsSync(uploadDir)) {
 // Middleware
 app.use(bodyParser.json());
 app.use(cors());
-app.use("/uploads", express.static(path.join(__dirname, "uploads"))); // Serve uploaded files
+app.use("/uploads", express.static(path.join(__dirname, "uploads"))); 
 
 // Database Setup
 const db = new sqlite3.Database("./database.db", (err) => {
@@ -148,15 +148,15 @@ app.get("/employees/:id", (req, res) => {
 app.put("/edit-employees/:id", upload.single("f_Image"), (req, res) => {
   const { id } = req.params;
   const { f_Name, f_Email, f_Mobile, f_Designation, f_gender, f_Course } = req.body;
-  const f_Image = req.file ? req.file.path : null; // Use new image if uploaded, else keep previous image
+  const f_Image = req.file ? req.file.path : null;
 
-  // If no image is uploaded, keep the previous image path
+  
   db.get(`SELECT f_Image FROM t_Employee WHERE f_Id = ?`, [id], (err, row) => {
     if (err) return res.status(500).json({ message: "Database error.", error: err.message });
     
     const existingImage = row ? row.f_Image : null;
 
-    const imagePath = f_Image || existingImage; // Use the uploaded image or keep the existing one if not updated
+    const imagePath = f_Image || existingImage; 
 
     db.run(
       `UPDATE t_Employee
@@ -185,7 +185,7 @@ app.delete("/employees/:id", (req, res) => {
     if (err) return res.status(500).json({ message: "Database error.", error: err.message });
     if (this.changes === 0) return res.status(404).json({ message: "Employee not found." });
 
-    // Reset auto-increment to the highest ID value
+    
     db.get("SELECT MAX(f_Id) AS maxId FROM t_Employee", [], (err, row) => {
       if (err) return res.status(500).json({ message: "Database error.", error: err.message });
       const maxId = row.maxId || 0;
