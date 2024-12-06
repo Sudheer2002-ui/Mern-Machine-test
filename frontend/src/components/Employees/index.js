@@ -100,7 +100,7 @@ class Employees extends Component {
               <th>Designation</th>
               <th>Gender</th>
               <th>Course</th>
-              <th>Create Date</th>
+              <th>Created Date</th>
               <th>Action</th>
             </tr>
           </thead>
